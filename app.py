@@ -32,7 +32,7 @@ def index():
 def listar_usuarios():
     try:
         cursor = db.obtener_cursor()
-        cursor.execute("SELECT idemp, usuario, clave, estado FROM USUARIO")
+        cursor.execute("SELECT idemp, usuario, clave, estado FROM usuario")
         datos=cursor.fetchall()
         usuarios = [{'idemp': row[0], 'usuario': row[1], 'clave': row[2], 'estado': row[3]} for row in datos]
         cursor.close()
@@ -154,3 +154,6 @@ def autenticar_usuario():
             return jsonify({'mensaje': ex, 'exito': False})
     else:
         return jsonify({'mensaje': "Parámetros inválidos...", 'exito': False})
+    
+if __name__ == '__main__':
+    app.run(debug=True)
