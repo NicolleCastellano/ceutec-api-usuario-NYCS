@@ -3,6 +3,7 @@ from conexion import ConexionDB
 import hashlib
 from flask_cors import CORS
 
+
 app = Flask(__name__)
 CORS(app, resources={
     r"/*": {
@@ -32,7 +33,7 @@ def index():
 def listar_usuarios():
     try:
         cursor = db.obtener_cursor()
-        cursor.execute("SELECT idemp, usuario, clave, estado FROM usuario")
+        cursor.execute("SELECT idemp, usuario, clave, estado FROM USUARIO")
         datos=cursor.fetchall()
         usuarios = [{'idemp': row[0], 'usuario': row[1], 'clave': row[2], 'estado': row[3]} for row in datos]
         cursor.close()
@@ -131,8 +132,8 @@ def autenticar_usuario():
     if (request.json['usuario'] and request.json['password']):
         try:
             cursor = db.obtener_cursor()
-            sql = "SELECT  idemp, usuario, clave FROM usuario WHERE usuario = '{0}'".format(request.json['usuario'])
-            cursor.execute(sql)
+            sql = "SELECT  idemp, usuario, clave FROM usuario WHERE usuario = %s"
+            cursor.execute(sql, (request.json['usuario'],))
             datos = cursor.fetchone()
             if datos is None:
                 return jsonify({'mensaje': 'Usuario no encontrado', 'exito': False}), 404
@@ -151,7 +152,7 @@ def autenticar_usuario():
                 return jsonify({'mensaje': 'Contraseña incorrecta', 'exito': False}), 401
             
         except Exception as ex:
-            return jsonify({'mensaje': ex, 'exito': False})
+                return jsonify({'mensaje': str(ex)}), 500
     else:
         return jsonify({'mensaje': "Parámetros inválidos...", 'exito': False})
     
