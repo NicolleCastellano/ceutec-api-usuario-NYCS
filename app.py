@@ -12,7 +12,7 @@ CORS(app, resources={
     }
 })
 
-app.config['MYSQL_HOST'] = 'mysql.railway.internal'
+app.config['MYSQL_HOST'] = 'zephyr.proxy.rlwy.net'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'FlHyQLKBJWjaVALnddeBeupTPpWeTERQ'
 app.config['MYSQL_DB'] = 'VENTAS'
